@@ -9,7 +9,8 @@
             </h4>
         </div>
         <div class="card-body">
-            <form action="" method="POST">
+            <?php alertDialog() ?>
+            <form action="code.php" method="POST">
 
                 <div class="row">
 
@@ -27,10 +28,10 @@
                     </div>
                     <div class="col-md-6 mb-3">
                         <label for="">Phone Number *</label>
-                        <input type="number" name="name" required class="form-control" />
+                        <input type="number" name="phonenumber" required class="form-control" />
                     </div>
                     <div class="col-md-3 mb-3">
-                        <label for="">Is Banned? *</label>
+                        <label for="">Is Banned?</label>
                         <input type="checkbox" name="is_ban" style="width:30px;height:30px;" />
                     </div>
                     <div class="col-md-3 mb-3 text-end">

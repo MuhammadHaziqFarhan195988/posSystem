@@ -52,7 +52,7 @@ function insert($tableName, $data)
     $values = array_values($data);
 
     $finalColumn = implode(',', $columns);
-    $finalValues = "," . implode("', '", $values) . ",";
+    $finalValues = "'" . implode("', '", $values) . "'";
 
     $query = "INSERT INTO $table ($finalColumn) VALUES ($finalValues)";
     $result = mysqli_query($connection, $query);
