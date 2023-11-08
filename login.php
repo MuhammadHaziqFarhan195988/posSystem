@@ -1,0 +1,33 @@
+<?php include('includes/header.php'); ?>
+
+<div class="py-5 bg-light">
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card shadow rounded-4">
+                    <div class="p-5">
+                        <h4>Login to your RediPay PLT POS System</h4>
+                        <form action="login-code.php" method="POST">
+
+<div class="mb-3">
+    <label> Enter Email</label>
+    <input type="text" name="email" class="form-control" required />
+</div>
+<div class="mb-3">
+    <label> Enter Password</label>
+    <input type="text" name="email" class="form-control" required />
+</div>
+<div class="my-3">
+    <button type="submit" name="loginBtn" class="btn btn-primary w-100 mt-2">Sign In
+        
+    </button>
+</div>
+                        </form>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+<?php include('includes/footer.php'); ?>
