@@ -34,13 +34,13 @@ if($result){
         $_SESSION['loggedInUser'] = [
             'user_id' => $row['id'],
             'name' => $row['name'],
-            'user_id' => $row['id'],
-            'user_id' => $row['id'],
-            'user_id' => $row['id'],
+            'email' => $row['email'],
+            'phone' => $row['phone'],
+            
 
         ];
 
-
+        redirect('admin/index.php', 'Logged In Successfully');
     } else {
         redirect('login.php', 'Invalid email address');
     }
