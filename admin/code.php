@@ -96,3 +96,43 @@ if(isset($_POST['updateAdmin']))
         redirect('admins-create.php', 'Please fill the required fields');
     }
 }
+
+
+if(isset($_POST['saveCategory'])){
+    $name = validate($_POST['name']);
+    $description = validate($_POST['description']);
+    $status = isset($_POST['status']) == true ? 1:0;
+
+    $data = [
+        'name' => $name, 
+        'description'=> $description,
+        'status' => $status,
+     ];
+     $result = insert('categories', $data);
+ 
+     if($result){
+         redirect('categories.php', 'Category Created Successfully!');
+     }else {
+         redirect('categories-create.php', 'Something Went Wrong!');
+     }
+}
+
+if(isset($_POST['updateCategory'])){
+    $categoryId = validate($_POST['categoryId']);
+    $name = validate($_POST['name']);
+    $description = validate($_POST['description']);
+    $status = isset($_POST['status']) == true ? 1:0;
+
+    $data = [
+        'name' => $name, 
+        'description'=> $description,
+        'status' => $status,
+     ];
+     $result = updateDB('categories', $categoryId ,$data); #update using mySQL query
+ 
+     if($result){
+         redirect('categories-edit.php?id='.$categoryId, 'Category Updated Successfully!');
+     }else {
+         redirect('categories-edit.php?id='.$categoryId, 'Something Went Wrong!');
+     }
+}
