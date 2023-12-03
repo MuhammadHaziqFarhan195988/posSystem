@@ -22,6 +22,21 @@
                     </nav>
                 </div>
 
+                <a class="nav-link collapsed" href="#" 
+                data-bs-toggle="collapse" 
+                data-bs-target="#collapseProduct" aria-expanded="false" aria-controls="collapseProduct">
+                    <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                    Products
+                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                </a>
+                <div class="collapse" id="collapseProduct" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                    <nav class="sb-sidenav-menu-nested nav">
+                        <a class="nav-link" href="products-create.php">Create Product</a>
+                        <a class="nav-link" href="products.php">View Products</a>
+                    </nav>
+                </div>
+
+
                 <div class="sb-sidenav-menu-heading">Manage Users</div>
                 <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseAdmins" aria-expanded="false" aria-controls="collapseAdmins">
                     <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>

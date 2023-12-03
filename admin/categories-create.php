@@ -15,12 +15,12 @@
                 <div class="row">
 
                     <div class="col-md-12 mb-3">
-                        <label for="">Item Name *</label>
+                        <label for="">Item Type *</label>
                         <input type="text" name="name" required class="form-control" />
                     </div>
                   
                     <div class="col-md-12 mb-3">
-                        <label for="">Description</label>
+                        <label for="">Description</label><!-- dont forget to database dump -->
                         <textarea name="description" class="form-control" rows="3"></textarea>
                     </div>
                     <div class="col-md-6">
