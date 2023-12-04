@@ -10,8 +10,8 @@
         </div>
         <div class="card-body">
             <?php alertDialog() ?>
-            <form action="code.php" method="POST">
-
+            <form action="code.php" method="POST" enctype="multipart/form-data"> <!-- now that we use File as the <input> type, we now have to add enctype to  -->
+                                                    <!-- allow the code to handle such values-->
                 <div class="row">
 <div class="col-md-12 mb-3">
 
@@ -35,19 +35,25 @@ echo '<option value="">Error, getAll() function is not executing </option>';
 ?>
 </select> 
 </div>
+
+                    <div class="col-md-4 mb-3">
+                        <label for="">Item Image</label>
+                        <input type="file" name="image" class="form-control" />
+                    </div>
+
                     <div class="col-md-12 mb-3">
                         <label for="">Item Name *</label>
                         <input type="text" name="name" required class="form-control" />
                     </div>
 
-                    <div class="col-md-12 mb-3">
+                    <div class="col-md-4 mb-3">
                         <label for="">Item Price *</label>
                         RM<input type="number" name="price" required class="form-control" />
                     </div>
 
-                    <div class="col-md-12 mb-3">
+                    <div class="col-md-4 mb-3">
                         <label for="">Item Quantity *</label>
-                        <input type="number" name="price" required class="form-control" />
+                        <input type="number" name="quantity" required class="form-control" />
                     </div>
                   
                     <div class="col-md-12 mb-3">

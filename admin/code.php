@@ -136,3 +136,43 @@ if(isset($_POST['updateCategory'])){
          redirect('categories-edit.php?id='.$categoryId, 'Something Went Wrong!');
      }
 }
+
+
+if(isset($_POST['saveProduct'])){
+    $categoryId = validate($_POST['category_id']);
+    if($_FILES['image']['size'] > 0){#check if size greater than 0, to basically indicate that the image is there
+        $path = "../assets/uploads/products";
+        $image_ext = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION); #i assume that this represents getting infomation about the image file, but this one is getting info
+        #about extension file such as png, jpeg, jpg
+
+        $filename = time().'.'.$image_ext; #file name will be automatically generated base on time() and an extension will be added
+
+        move_uploaded_file($_FILES['image']['tmp_name'], $path."/".$filename); #insert this to assets folder
+        $finalImage = "assets/uploads/products/".$filename;
+    }  else {
+        $finalImage = "";
+    }
+    $image = validate($_POST['image']);
+    $name = validate($_POST['name']);
+    $price = validate($_POST['price']);
+    $quantity = validate($_POST['quantity']);
+    $description = validate($_POST['description']);
+    $status = isset($_POST['status']) == true ? 1:0;
+
+    $data = [
+        'category_id' => $categoryId,
+        'image' => $finalImage,
+        'name' => $name, 
+        'price' => $price,
+        'quantity' => $quantity,
+        'description'=> $description,
+        'status' => $status,
+     ];
+     $result = insert('products', $data);
+ 
+     if($result){
+         redirect('products.php', 'Category Created Successfully!');
+     }else {
+         redirect('products-create.php', 'Something Went Wrong!');
+     }
+}
