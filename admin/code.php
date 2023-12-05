@@ -140,6 +140,11 @@ if(isset($_POST['updateCategory'])){
 
 if(isset($_POST['saveProduct'])){
     $categoryId = validate($_POST['category_id']);
+    $name = validate($_POST['name']);
+    $price = validate($_POST['price']);
+    $quantity = validate($_POST['quantity']);
+    $description = validate($_POST['description']);
+    $status = isset($_POST['status']) == true ? 1:0;
     if($_FILES['image']['size'] > 0){#check if size greater than 0, to basically indicate that the image is there
         $path = "../assets/uploads/products";
         $image_ext = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION); #i assume that this represents getting infomation about the image file, but this one is getting info
@@ -148,16 +153,13 @@ if(isset($_POST['saveProduct'])){
         $filename = time().'.'.$image_ext; #file name will be automatically generated base on time() and an extension will be added
 
         move_uploaded_file($_FILES['image']['tmp_name'], $path."/".$filename); #insert this to assets folder
+
         $finalImage = "assets/uploads/products/".$filename;
     }  else {
-        $finalImage = "";
+        $finalImage = '';
     }
-    $image = validate($_POST['image']);
-    $name = validate($_POST['name']);
-    $price = validate($_POST['price']);
-    $quantity = validate($_POST['quantity']);
-    $description = validate($_POST['description']);
-    $status = isset($_POST['status']) == true ? 1:0;
+    
+   
 
     $data = [
         'category_id' => $categoryId,
@@ -175,4 +177,124 @@ if(isset($_POST['saveProduct'])){
      }else {
          redirect('products-create.php', 'Something Went Wrong!');
      }
+}
+
+if(isset($_POST['updateProduct']))
+{
+    $product_id = validate($_POST['product_id']);
+    $productData = getById('products', $product_id);
+    if(!$productData){
+redirect('product.php', 'No such product found');
+    }
+    $categoryId = validate($_POST['category_id']);
+    if($_FILES['image']['size'] > 0){#check if size greater than 0, to basically indicate that the image is there
+        $path = "../assets/uploads/products";
+        $image_ext = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION); #i assume that this represents getting infomation about the image file, but this one is getting info
+        #about extension file such as png, jpeg, jpg
+
+        $filename = time().'.'.$image_ext; #file name will be automatically generated base on time() and an extension will be added
+
+        move_uploaded_file($_FILES['image']['tmp_name'], $path."/".$filename); #insert this to assets folder
+        $finalImage = "assets/uploads/products/".$filename;
+
+        $deleteImage = "../".$productData['data']['image']; #the purpose of this code is that, if user decided to upload new image
+                                                            #then the old image is deleted, if not then set the new image as image
+        if(file_exists($deleteImage)){ #if old image exists
+unlink($deleteImage); #delete old image
+        }
+    }  else { #if there are no image file prior to this
+        $finalImage = $productData['data']['image']; #image inside of the file which has recently uploaded to product, are to be left alone
+    }
+    $image = validate($_POST['image']);
+    $name = validate($_POST['name']);
+    $price = validate($_POST['price']);
+    $quantity = validate($_POST['quantity']);
+    $description = validate($_POST['description']);
+    $status = isset($_POST['status']) == true ? 1:0;
+
+    $data = [
+        'category_id' => $categoryId,
+        'image' => $finalImage,
+        'name' => $name, 
+        'price' => $price,
+        'quantity' => $quantity,
+        'description'=> $description,
+        'status' => $status,
+     ];
+     $result = updateDB('products', $product_id , $data);
+ 
+     if($result){
+         redirect('products-edit.php?id='.$product_id, 'Product Updated Successfully!');
+     }else {
+         redirect('products-edit.php?id='.$product_id, 'Something Went Wrong!');
+     }
+}
+
+if(isset($_POST['saveCustomer'])){
+    $name = validate($_POST['name']);
+    $email = validate($_POST['email']);
+    $phone = validate($_POST['phone']);
+    $status = isset($_POST['status']) == true ? 1:0;
+
+    if($name != '' && $email != '' ){ #nullchecker
+        $emailCheck = mysqli_query($connection, "SELECT * FROM customers WHERE email = '$email'");
+        if($emailCheck){
+        if(mysqli_num_rows($emailCheck) > 0){
+            redirect('customers-create.php', 'Email already exists');
+        }
+    } 
+    
+
+    $data = [
+       'name' => $name, 
+       'email'=> $email,
+       'phone' => $phone,	
+       'status' => $status,
+    ];
+    $result = insert('customers', $data);
+
+    if($result){
+        redirect('customers.php', 'Customer Created Successfully!');
+    }else {
+        redirect('customers-create.php', 'Something Went Wrong!');
+    }
+    
+    
+}else{
+        redirect('customers-create.php', 'Please fill the required fields');
+    }
+}
+
+if(isset($_POST['updateCustomer'])){
+    $customerId = validate($_POST['customerId']);
+    $name = validate($_POST['name']);
+    $email = validate($_POST['email']);
+    $phone = validate($_POST['phone']);
+    $status = isset($_POST['status']) == true ? 1:0;
+
+    if($name != '' && $email != '' ){ #nullchecker
+        $emailCheck = mysqli_query($connection, "SELECT * FROM customers WHERE email = '$email'");
+        if($emailCheck){
+        if(mysqli_num_rows($emailCheck) > 0){
+            redirect('customers-edit.php?id='.$customerId, 'Email already used by another user');
+        }
+    }
+
+    $data = [
+        'name' => $name, 
+       'email'=> $email,
+       'phone' => $phone,	
+       'status' => $status,
+     ];
+     $result = updateDB('customers', $customerId ,$data); #update using mySQL query
+ 
+     if($result){
+         redirect('customers-edit.php?id='.$customerId, 'Customer Updated Successfully!');
+     }else {
+         redirect('customers-edit.php?id='.$customerId, 'Something Went Wrong!');
+     }
+
+    }else {
+        redirect('customers-edit.php?id='.$customerId, 'Please fill required fields');
+    }
 }

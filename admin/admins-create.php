@@ -28,7 +28,7 @@
                     </div>
                     <div class="col-md-6 mb-3">
                         <label for="">Phone Number *</label>
-                        <input type="number" name="phonenumber" required class="form-control" />
+                        <input type="text" name="phonenumber" required class="form-control" />
                     </div>
                     <div class="col-md-3 mb-3">
                         <label for="">Is Banned?</label>

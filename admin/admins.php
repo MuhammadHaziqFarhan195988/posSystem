@@ -49,9 +49,13 @@ if(mysqli_num_rows($admins) > 0)
                                     echo '<span class="badge bg-primary">Active</span>';
                                  }
                                 ?>
-                                <a href="admins-edit.php?id=<?= $adminItem['id']; ?>" class="btn btn-success btn-sm">Edit</a>
-                                <a href="admins-delete.php?id=<?= $adminItem['id']; ?>" class="btn btn-danger btn-sm">Delete</a>
+                                
                             </td>
+                            <td>
+                            <a href="admins-edit.php?id=<?= $adminItem['id']; ?>" class="btn btn-success btn-sm">Edit</a>
+                            <a href="admins-delete.php?id=<?= $adminItem['id']; ?>" class="btn btn-danger btn-sm">Delete</a>
+                            </td>
+                            
                         </tr>
                         <?php endforeach; ?>
 

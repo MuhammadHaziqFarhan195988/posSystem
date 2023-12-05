@@ -4,19 +4,19 @@
     <div class="card mt-4 shadow-sm">
         <div class="card-header">
             <h4 class="mb-0">
-                Products
-                <a href="products-create.php" class="btn btn-primary float-end">+ Add Product</a>
+                Customers
+                <a href="customers-create.php" class="btn btn-primary float-end">+ Add Customer</a>
             </h4>
         </div>
         <div class="card-body">
            <?php alertDialog() ?>
            <?php
-$products = getAll('products');
-if(!$products){
+$customers = getAll('customers');
+if(!$customers){
     echo '<h4>Something Went Wrong!</h4>';
     return false;
 }
-if(mysqli_num_rows($products) > 0)
+if(mysqli_num_rows($customers) > 0)
 {
 
 
@@ -28,20 +28,21 @@ if(mysqli_num_rows($products) > 0)
                             <th>
                                 ID
                             </th>
-                            <th>Image</th>
                             <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone Number</th>
                             <th>Status</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         
-                        <?php foreach($products as $item) :?>
+                        <?php foreach($customers as $item) :?>
                         <tr>
                             <td><?= $item['id'] ?></td>
-                            <td><img src="../<?= $item['image']; ?>" style="width:50px;height:50px;" alt="Img" />
-                        </td>
                             <td><?= $item['name'] ?></td>
+                            <td><?= $item['email'] ?></td>
+                            <td><?= $item['phone'] ?></td>
                             <td>
                             <?php
                                  if($item['status'] == 1){
@@ -53,10 +54,10 @@ if(mysqli_num_rows($products) > 0)
                                 
                             </td>
                             <td>
-                            <a href="products-edit.php?id=<?= $item['id']; ?>" class="btn btn-success btn-sm">Edit</a>
-                            <a href="products-delete.php?id=<?= $item['id']; ?>" class="btn btn-danger btn-sm"
-                            onclick="return confirm('Are you sure you want to delete?')"
-                            >Delete</a>
+                            <a href="customers-edit.php?id=<?= $item['id']; ?>" class="btn btn-success btn-sm">Edit</a>
+                                <a href="customers-delete.php?id=<?= $item['id']; ?>" class="btn btn-danger btn-sm"
+                                onclick="return confirm('Are you sure you want to delete?')"
+                                >Delete</a>
                             </td>
                         </tr>
                         <?php endforeach; ?>
