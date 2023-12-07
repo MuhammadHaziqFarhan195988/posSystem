@@ -70,3 +70,24 @@ if(isset($_POST['addItem'])){ #this is for customer adding item in cart
         redirect('orders-create.php', 'Something Went Wrong!');
     }
 }
+
+if(isset($_POST['productIncDec'])){
+    $productId = validate($_POST['product_id']);
+    $quantity = validate($_POST['quantity']);
+
+    $flag = false;
+    foreach($_SESSION['productItems'] as $key => $item){
+        if($item['product_id'] == $productId){ //inside of this array, when you want to access a specific value inside the array,
+                                                // we use key, which stores the value of integer like i for
+            $flag = true;
+        $_SESSION['productItems'][$key]['quantity'] = $quantity;                    //refer quantity as column
+    } //refering to the global array variable Session pick the array with productItems in it, with productItems we want a specific
+    }; // item in the array cell so it's number key, and inside of that item there are attributes such as quantity
+if($flag){ #if true then tell success
+    jsonResponse(200, 'success', 'Quantity Updated');
+    
+}else{
+    jsonResponse(500, 'error', 'Something Went Wrong. Please refresh');
+}
+
+}
