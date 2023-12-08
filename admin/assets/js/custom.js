@@ -59,7 +59,18 @@ function quantityIncDec(prodId, qty){ //represented by Increment and Decrement
     });
 }
 
-    
+    //proceed to place order button clicked
+    $(document).on('click','.proceedToPlace', function () {
+        
+        var payment_mode = $('#payment_mode').val();
+        //check whether payment mode is selected
+        if(payment_mode != ''){
+            swal("Select Payment Mode", "Select your payment mode", "warning");
+            return false;
+        }
+
+
+    });
 
 });
 
