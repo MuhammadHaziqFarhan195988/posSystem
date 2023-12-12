@@ -61,13 +61,65 @@ function quantityIncDec(prodId, qty){ //represented by Increment and Decrement
 
     //proceed to place order button clicked
     $(document).on('click','.proceedToPlace', function () {
-        
+        console.log('Proceed to place');
+        var cphone = $('#cphone').val();
         var payment_mode = $('#payment_mode').val();
         //check whether payment mode is selected
-        if(payment_mode != ''){
+        if(payment_mode == ''){
             swal("Select Payment Mode", "Select your payment mode", "warning");
             return false;
         }
+
+        if(cphone == '' && !$.isNumeric(cphone)){
+            swal("Enter Phone Number", "Enter Valid Phone Number", "warning");
+            return false;
+        }
+
+        var data = {
+            'proceedToPlaceBtn' : true,
+            'cphone': cphone,
+            'payment_mode' : payment_mode,
+
+        };
+
+        $.ajax({
+            type: "POST",
+            url: "orders-code.php",
+            data: data,
+            success: function (response) {
+                
+                var res = JSON.parse(response);
+                if(res.status == 200){
+                    window.location.href = "order-summmary.php";
+                    
+                }else if(res.status == 404){
+                    
+                    swal(res.message, res.message, res.status_type, {
+                        buttons:{
+                            catch: {
+                                text: "Add Customer",
+                                value: "catch"
+                            },
+                            cancel: "Cancel"
+
+                        }
+                    })
+                    .then((value) => {
+                        switch(value){
+
+                            case "catch":
+                                $('#addCustomerModal').modal('show');
+                         //   console.log('Pop the customer add modal');
+                            break;
+                            default:
+                        }
+                    });
+                } else {
+                    
+                    swal(res.message, res.message, res.status_type);
+                }
+            }
+        });
 
 
     });

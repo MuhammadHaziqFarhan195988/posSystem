@@ -91,3 +91,28 @@ if($flag){ #if true then tell success
 }
 
 }
+
+if(isset($_POST['proceedToPlaceBtn'])){ #Handling the customer
+$phone = validate($_POST['cphone']);
+$payment_mode = validate($_POST['payment_mode']);
+ 
+// Checking for Customer
+$query = "SELECT * FROM customers WHERE phone='$phone' LIMIT 1";
+$checkCustomer = mysqli_query($connection,$query);
+if($checkCustomer){
+    if(mysqli_num_rows($checkCustomer) > 0){
+        $_SESSION['invoice_no'] = "INV-".rand(111111,999999);
+        $_SESSION['cphone'] = $phone;
+        $_SESSION['payment_mode'] = $payment_mode;
+
+        jsonResponse(200, 'success', 'Customer Found');
+    } else {
+        $_SESSION['cphone'] = $phone;
+        jsonResponse(404, 'warning', 'We cannot find that customer');
+    }
+}
+else {
+    jsonResponse(500, 'error', 'Something Went Wrong');
+}
+
+}
