@@ -116,3 +116,28 @@ else {
 }
 
 }
+
+if(isset($_POST['saveCustomerBtn'])){ 
+    $name = validate($_POST['name']);
+    $phone = validate($_POST['phone']);
+    $email = validate($_POST['email']);
+
+    if($name != '' && $phone != ''){ #this is a nullchecker, though we already did so in custom.js
+        #if successful then send data to MySQL
+        $data = [
+            'name' => $name,
+            'phone' => $phone,
+            'email' => $email,
+        ];
+
+        $result = insert('customers', $data); #inside of insert function, to customers table insert $data
+
+        if($result){
+            jsonResponse(200, 'success', 'Customer Created Successfully!');
+        }else {
+            jsonResponse(500, 'error', 'Something Went Wrong!');
+        }
+    } else {
+        jsonResponse(422, 'warning', 'Please fill the required fields!');
+    }
+}

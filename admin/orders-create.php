@@ -159,6 +159,7 @@ if(empty($sessionProducts)){
                             <button type="button" class="btn btn-warning w-100 proceedToPlace">
                                 proceed to place order
                                 </button>
+                                <!-- goes straight to custom.js  -->
                             </div>
                         </div>
                     </div>

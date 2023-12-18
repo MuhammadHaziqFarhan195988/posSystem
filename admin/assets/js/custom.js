@@ -75,14 +75,14 @@ function quantityIncDec(prodId, qty){ //represented by Increment and Decrement
             return false;
         }
 
-        var data = {
-            'proceedToPlaceBtn' : true,
-            'cphone': cphone,
-            'payment_mode' : payment_mode,
+        var data = { // when we clicked the proceed to place button 
+            'proceedToPlaceBtn' : true, // the state then was proceedToPlace which then
+            'cphone': cphone,//we are enabling proceedToPlaceBtn to be true so the orders-code.php can handle
+            'payment_mode' : payment_mode,// the same data but with different state name
 
         };
 
-        $.ajax({
+        $.ajax({ // to search and attribute customer to orders, otherwise add new customer
             type: "POST",
             url: "orders-code.php",
             data: data,
@@ -90,7 +90,7 @@ function quantityIncDec(prodId, qty){ //represented by Increment and Decrement
                 
                 var res = JSON.parse(response);
                 if(res.status == 200){
-                    window.location.href = "order-summmary.php";
+                    window.location.href = "orders-summary.php";
                     
                 }else if(res.status == 404){
                     
@@ -108,6 +108,7 @@ function quantityIncDec(prodId, qty){ //represented by Increment and Decrement
                         switch(value){
 
                             case "catch":
+                                $('#c_phone').val(cphone); //let's just say you don't want to retype the phone number again when adding new customers
                                 $('#addCustomerModal').modal('show');
                          //   console.log('Pop the customer add modal');
                             break;
@@ -123,6 +124,60 @@ function quantityIncDec(prodId, qty){ //represented by Increment and Decrement
 
 
     });
+
+
+
+    //Add Customers to customer table via Error Message in Order-Create.php
+    $(document).on('click','.saveCustomer', function () { //you see, inside of on() parameter there are events, 
+                                                          //the events that we are expecting is click
+        //1. we have to put our input values of the customer that we want to add
+
+        //based on the id that we have labeled inside of order-create.php
+        // we now have to put hashtag behind the id name
+        var c_name = $('#c_name').val(); 
+        var c_phone = $('#c_phone').val(); 
+        var c_email = $('#c_email').val(); 
+                                         
+        if(c_name != '' && c_phone != ''){
+
+            if($.isNumeric(c_phone)) {
+                // after we have confirm it's a valid data, it's time to send to MySQL
+                var data = {
+                    'saveCustomerBtn' : true, // in order to trigger function named saveCustomerBtn, it has to be true
+                    'name' : c_name,
+                    'phone' : c_phone,
+                    'email' : c_email,
+                };
+
+                $.ajax({
+                    type: "POST",
+                    url: "orders-code.php", //we redirect to orders-code.php for logic of submit data
+                    data: data,
+                    success: function (response) {
+                        var res = JSON.parse(response);
+
+                        if(res.status == 200){
+                            swal(res.message, res.message, res.status_type);
+                            $('#addCustomerModal').modal('hide');
+                        }else if(res.status == 422) {
+                            swal(res.message, res.message, res.status_type);
+                        }
+                        else {
+                            swal(res.message, res.message, res.status_type);
+                        }
+                    }
+                    }
+                );
+
+            }else{
+                swal("Enter Valid Phone Number!", "", "warning");
+            }
+        }
+        else {
+            swal("Please fill the required fields!", "", "warning");
+        }
+    }); 
+
 
 });
 

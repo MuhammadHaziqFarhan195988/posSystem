@@ -55,7 +55,7 @@ function insert($tableName, $data)
     $finalValues = "'" . implode("', '", $values) . "'";
 
     $query = "INSERT INTO $table ($finalColumn) VALUES ($finalValues)";
-    $result = mysqli_query($connection, $query);
+    $result = mysqli_query($connection, $query); #this function returns boolean value
     return $result;
 }
 
@@ -177,6 +177,6 @@ function jsonResponse($status, $status_type, $message){
         'status_type' => $status_type,
         'message' => $message,
     ];
-    echo json_encode($response);
-    return;
+    echo json_encode($response); #it print the json response value;
+    return; #return nothing
 }

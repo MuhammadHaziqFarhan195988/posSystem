@@ -173,7 +173,7 @@ if(isset($_POST['saveProduct'])){
      $result = insert('products', $data);
  
      if($result){
-         redirect('products.php', 'Category Created Successfully!');
+         redirect('products.php', 'Product Created Successfully!');
      }else {
          redirect('products-create.php', 'Something Went Wrong!');
      }
