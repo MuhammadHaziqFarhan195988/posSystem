@@ -141,3 +141,82 @@ if(isset($_POST['saveCustomerBtn'])){
         jsonResponse(422, 'warning', 'Please fill the required fields!');
     }
 }
+
+
+if(isset($_POST['saveOrder'])){
+#get all data from customer data invoice details
+    $phone = validate($_SESSION['cphone']); #stored in SESSION instead of POST because we already 
+    $invoice_no = validate($_SESSION['invoice_no']); # sent(POST) and stored data of cphone into SESSION
+    $payment_mode = validate($_SESSION['payment_mode']); #refer to proceedToPlaceBtn
+    $order_placed_by_id = $_SESSION['loggedInUser']['user_id'];
+
+    $checkCustomer = mysqli_query($connection, "SELECT * FROM customers WHERE phone='$phone' LIMIT 1");
+    if(!$checkCustomer){
+        jsonResponse(500, 'error' , 'Something Went Wrong!');
+    }
+
+    if(mysqli_num_rows($checkCustomer) > 0){
+        $customerData = mysqli_fetch_assoc($checkCustomer);
+
+        if(!isset($_SESSION['productItems'])){#check whether the product is in the session
+            jsonResponse(500, 'warning' , 'No Items to place order!');
+        } 
+
+        $sessionProducts = $_SESSION['productItems'];
+        $totalAmount = 0;
+        foreach($sessionProducts as $amtItem){
+            $totalAmount += $amtItem['price'] * $amtItem['quantity'];
+        }
+
+        $data = [
+            'customer_id' => $customerData['id'],
+            'tracking_no' => rand(11111,99999), #strange how it still use random() 
+            'invoice_no'  => $invoice_no, #oh wait tracking number differ from invoice no, right?
+            'total_amount' => $totalAmount,
+            'order_date' => date('Y-m-d'),
+            'order_status' => 'booked',
+            'payment_mode' => $payment_mode,
+            'order_placed_by_id' => $order_placed_by_id
+        ];
+        $result = insert('orders', $data);
+        $lastOrderId = mysqli_insert_id($connection);
+
+        foreach($sessionProducts as $prodItem){
+            $productId = $prodItem['product_id'];
+            $price = $prodItem['price'];
+            $quantity = $prodItem['quantity'];
+
+            //inserting order items
+            $dataOrderItem = [ //according to the mySQL database
+                'order_id' => $lastOrderId,
+                'product_id' => $productId,
+                'price' => $price,
+                'quantity' => $quantity,
+            ];
+            $orderItemQuery = insert('order_items', $dataOrderItem); // pass to database
+
+            //checking for the books quantity and decreasing quantity and make total quantity
+            $checkProductQuantityQuery = mysqli_query($connection,"SELECT * FROM products WHERE id='$productId'");
+            $productQtyData = mysqli_fetch_assoc($checkProductQuantityQuery);
+            //once we get the quantity we then decrease it in our stock
+            $totalProductQuantity = $productQtyData['quantity'] - $quantity;
+
+            $dataUpdate = [
+                'quantity' => $totalProductQuantity
+            ];
+            $updateProductQty = updateDB('products', $productId, $dataUpdate);
+        }
+
+        unset($_SESSION['productItems']); #we then empty data in the Session variable 
+        unset($_SESSION['productItemIds']); #so that the server can use it to pick up next item data
+        unset($_SESSION['cphone']);
+        unset($_SESSION['payment_mode']);
+        unset($_SESSION['invoice_no']);
+
+        jsonResponse(200, 'success', 'Order Placed Successfully!');
+
+    } else
+    {
+        jsonResponse(404, 'warning', 'No customer found!');
+    }
+}
