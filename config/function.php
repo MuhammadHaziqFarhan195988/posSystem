@@ -180,3 +180,20 @@ function jsonResponse($status, $status_type, $message){
     echo json_encode($response); #it print the json response value;
     return; #return nothing
 }
+
+function getCount($tableName){
+global $connection;
+
+$table = validate($tableName);
+$query = "SELECT * FROM $table";
+$query_run = mysqli_query($connection, $query);
+
+if($query_run){
+
+    $totalCount = mysqli_num_rows($query_run);
+    return $totalCount;
+}else {
+    return 'Something Went Wrong';
+}
+
+}
