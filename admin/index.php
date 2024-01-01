@@ -10,7 +10,7 @@
         </div>
 
         <div class="col-md-3 mb-3">
-            <div class="card card-body bg-primary p-3">
+            <div class="card card-body bg-primary p-3 text-white">
                 <p class="text-sm mb-0 text-capitalize"> Total Category</p>
                 <h5 class="fw-bold mb-0">
                     <?= getCount('categories'); ?>
@@ -19,7 +19,7 @@
         </div>
 
         <div class="col-md-3 mb-3">
-            <div class="card card-body bg-success p-3">
+            <div class="card card-body bg-success p-3 text-white">
                 <p class="text-sm mb-0 text-capitalize"> Total Products</p>
                 <h5 class="fw-bold mb-0">
                     <?= getCount('products'); ?>
@@ -28,7 +28,7 @@
         </div>
 
         <div class="col-md-3 mb-3">
-            <div class="card card-body bg-warning p-3">
+            <div class="card card-body bg-secondary p-3 text-white">
                 <p class="text-sm mb-0 text-capitalize"> Total Admins</p>
                 <h5 class="fw-bold mb-0">
                     <?= getCount('admins'); ?>
@@ -38,7 +38,7 @@
 
 
         <div class="col-md-3 mb-3">
-            <div class="card card-body bg-info p-3">
+            <div class="card card-body bg-info p-3 text-white">
                 <p class="text-sm mb-0 text-capitalize"> Total Customers</p>
                 <h5 class="fw-bold mb-0">
                     <?= getCount('customers'); ?>
