@@ -27,7 +27,7 @@
             $orderQuery = "SELECT o.*, c.* FROM orders o, customers c 
             WHERE c.id=o.customer_id AND tracking_no='$trackingNo' LIMIT 1" ;
             $orderQueryRes = mysqli_query($connection, $orderQuery);
-            if($orderQueryRes){
+            if(!$orderQueryRes){
                 echo "<h5> Something Went Wrong </h5>";
                 return false;
             }
@@ -73,7 +73,7 @@
                 return false;
             }
 
-            $orderItemQuery = "SELECT oi.quantity as orderItemQuantity, oi.price as orderItemPrice, o.*, oi.*, p.*, FROM orders o, order_items oi, products p WHERE
+            $orderItemQuery = "SELECT oi.quantity as orderItemQuantity, oi.price as orderItemPrice, o.*, oi.*, p.* FROM orders o, order_items oi, products p WHERE
             oi.order_id=o.id AND p.id=oi.product_id AND o.tracking_no='$trackingNo' ";
 
             $orderItemQueryRes = mysqli_query($connection, $orderItemQuery);
@@ -121,7 +121,7 @@
                         </div>
                     <?php
                 }else {
-
+                
                 }
             }
             else {
@@ -132,13 +132,6 @@
         else {
 
             ?>
-
-        </div>
-
-        <div class="mt-4 text-end">
-            <button class="btn btn-info px-4 mx-1" onclick="printMyBillingArea()">Print</button>
-            <button class="btn btn-danger px-4 mx-1" onclick="downloadPDF('<?= $orderDataRow['invoice_no']; ?>')">Download PDF</button>
-        </div>
             <div class="text-center py-5">
             <h5>No Tracking Number Parameter Found</h5>
             <a href="orders.php" class="btn btn-primary mt-4 w-25">Go back to orders</a>
@@ -149,6 +142,11 @@
 
         ?>
 
+        </div>
+
+        <div class="mt-4 text-end">
+            <button class="btn btn-info px-4 mx-1" onclick="printMyBillingArea()">Print</button>
+            <button class="btn btn-danger px-4 mx-1" onclick="downloadPDF('<?= $orderDataRow['invoice_no']; ?>')">Download PDF</button>
         </div>
     </div>
 </div>

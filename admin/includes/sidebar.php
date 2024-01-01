@@ -43,7 +43,7 @@
                     <nav class="sb-sidenav-menu-nested nav">
                         <a class="nav-link <?= $page == 'categories-create.php' ? 'active': ''; ?>"  href="categories-create.php">Create Category</a>
                         <a class="nav-link <?= $page == 'categories.php'  ? 'active': ''; ?>"  href="categories.php">View Categories</a>
-                    </nav> <!-- we stopped at 8:27 -->
+                    </nav> 
                 </div>
 
                 <a class="nav-link  <?= ($page == 'products-create.php') || ($page == 'products.php') ? 'collapse active': 'collapsed'; ?>" href="#" 

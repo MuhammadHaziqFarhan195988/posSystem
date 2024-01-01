@@ -212,10 +212,11 @@ function printMyBillingArea() {
     a.document.write('<body style="font-family: fangsong;">');
     a.document.write(divContents);
     a.document.write('</body></html>');
+    a.print();
 }
 
 window.jsPDF = window.jspdf.jsPDF;
-var docPDF = new JsPDF;
+var docPDF = new jsPDF;
 
 function downloadPDF(invoiceNo) {
     
